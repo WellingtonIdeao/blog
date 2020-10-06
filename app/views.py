@@ -1,4 +1,8 @@
 # Create your views here.
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.forms import ModelForm
 from django.contrib.auth.models import User
@@ -38,4 +42,28 @@ def create_user(request, template_name='user_form.html'):
         return redirect('home')
     else:
         return render(request, template_name, {'form': form})
+
+
+def logar(request, template_name='login.html'):
+    next = request.GET.get('next', '/')
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(next)
+        else:
+            messages.error(request, 'Usuário ou senha incorretos')
+            return HttpResponseRedirect(settings.LOGIN_URL)
+    else:
+        return render(request, template_name, {'redirect_to': next})
+
+
+def deslogar(request):
+    logout(request)
+    return HttpResponseRedirect(settings.LOGIN_URL)
+
+
 

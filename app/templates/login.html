@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-Cadastrar Usuário
+Login
 {% endblock title %}
 {% block content %}
 <!-- Page Content -->
@@ -16,10 +16,11 @@ Cadastrar Usuário
         </h1>
         <!-- Blog Post -->
         <div class="card mb-4">
-          <form method="post"> {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">
-                    Cadastrar
+          <form method="post" action="?next={{ redirect_to }}"> {% csrf_token %}
+              <input type="text" name="username" placeholder="Usuario">
+              <input type="password" name="password" placeholder="Senha">
+                <button type="submit" class="btn waves-effect waves-light">
+                    logar
                 </button>
             </form>
         </div>
