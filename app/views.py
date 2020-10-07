@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.forms import ModelForm
+from .models import *
 from django.contrib.auth.models import User
 
 
@@ -19,7 +20,8 @@ class UserForm(ModelForm):
 
 
 def home(request, template_name='home.html'):
-    return render(request, template_name, {})
+    post = Post.objects.all()  # testar template for para  post vazio
+    return render(request, template_name, {'posts': post})
 
 
 def post(request, template_name='post.html'):
